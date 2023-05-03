@@ -182,13 +182,17 @@ int main(void) {
         /**
          * La funcion que sigue analiza el estado de un pin y modifica otro con respecto a este, esto
          * nos sirve para cuando tenemos un boton en la entrada y queremos que se prenda un led o se apague
-        */
+        *
         if (Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, TEC_1_GPIO, TEC_1_BIT) == 0) {
             Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, true);
         } else {
             Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, false);
+        }*/
+        if (DigitalInputAllocated(boton_prender) == 0) {
+            Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, true);
+        } else {
+            Chip_GPIO_SetPinState(LPC_GPIO_PORT, LED_B_GPIO, LED_B_BIT, false);
         }
-
 
         /**
          * El siguiente es un detector de flanco por software
