@@ -83,13 +83,13 @@ digital_input_t DigitalInputAllocated(void){
 
 
 digital_output_t DigitalOutputCreate(uint8_t port, uint8_t pin){
-    digital_input_t output= DigitalOutputAllocated;
+    digital_output_t output= DigitalOutputAllocated;
     if (output)
     {
         output->port=port;
         output->pin=pin;
-        Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->port, output->pin, false);
-        Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, output->port, output->pin, true);
+        Chip_GPIO_SetPinState(LPC_GPIO_PORT, output->port, output->pin, false);//<! Prendo el pin
+        Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, output->port, output->pin, true);//<! Configuro como salida
     }
     return output;
 }
@@ -113,12 +113,26 @@ void DigitalOutputDesactivate(digital_output_t output){
 
 
 
+digital_input_t DigitalInputCreate(uint8_t port, uint8_t pin){
+    digital_input_t input= DigitalInputAllocated();
+    if (input)
+    {
+        input->port=port;
+        input->pin=pin;
+        Chip_GPIO_SetPinDIR(LPC_GPIO_PORT, input->port, input->pin, false);//<! Configuro como salida
+    }
+    return input;
+}
 
 
-
+/** @brief Funcion que nos devuelve es estado de la entrada
+ * Lo hacemos de esta manera porque el operador ^ es el operador logico XOR
+ * Lo que hace que si un operador es 1 la salida se inverte y si uno es 0 el otro se
+ * mantiene igual
+*/
 void DigitalInputGetState(digital_input_t input){
     return input->inverted ^ Chip_GPIO_ReadPortBit(LPC_GPIO_PORT, input->port, input->pin);
-} //Osea, tengo que agregarle esta declaracion a todas los return?
+} 
 
 
 
@@ -126,7 +140,6 @@ void DigitalInputGetState(digital_input_t input){
 Las siguientes funciones no se pueden usar juntas, ya que cada una
 actualiza el estado
 */
-
 void DigitalInputHasChange(digital_input_t input){
     bool state = DigitalInputGetState(LPC_GPIO_PORT,input->port,input->pin);
     bool result = state != input->last_state;
