@@ -42,6 +42,7 @@
 
 #include "chip.h"
 #include <stdbool.h>
+#include "digital.h"
 
 /* === Macros definitions ====================================================================== */
 // Defino cada pin, con su respectivo puerto, pin, la funcion que tendra
@@ -121,7 +122,7 @@
 /* === Public function implementation ========================================================= */
 
 int main(void) {
-
+    digital
     int divisor = 0;
     bool current_state, last_state = false;
 
