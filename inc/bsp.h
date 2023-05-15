@@ -1,4 +1,6 @@
 #include "digital.h"
+#include <stdint.h>
+#include <stdbool.h>
 
 // Creo el struct tipo board
 typedef struct board_s{
@@ -13,3 +15,6 @@ typedef struct board_s{
 	digital_input_t boton_apagar;
 	
 } const * const board_t; //La direccion de memoria del puntero y los almacenado es constante
+
+
+board_t BoardCreate(void);

@@ -3,6 +3,7 @@
 
 /* Librerías necesarias */
 #include <stdint.h>
+#include <stdbool.h>
 
 /* Macros útiles */
 #define MAX_VALOR 100
