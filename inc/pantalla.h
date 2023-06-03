@@ -27,7 +27,7 @@ typedef void(*display_digit_on_t)(uint8_t digit);
 //! Estructura de bajo nivel para manejo de la pantalla
 typedef struct display_driver_s{
 	display_screen_off_t ScreenTurnOff;  
-	display_segments_on_t SementsTurnOn;
+	display_segments_on_t SegmentsTurnOn;
 	display_digit_on_t DigitTurnOn;
 }const * const display_driver_t; //<! Puntero al controlador de pantalla
 

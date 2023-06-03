@@ -16,7 +16,7 @@ struct display_s {
     uint8_t digits; //!<Aqui guardo cuanto digitos tengo
     uint8_t active_digit; //!<Aqui guardo cual esta pintado en este momento, para saber cual pintar despeus
     uint8_t memory[DISPLAY_MAX_DIGITS];  //<! Tenemos un uint8_t para cada digito, maximo 8, si tengo menos quedan en blanco
-    struct display_driver_s driver[1];   //Puntero a las tres funciones para boorar y pintar 
+    struct display_driver_s driver[1];   //Puntero a las tres funciones para borrar y pintar 
 };
 
 /*No entendi lo de struc display_driver_s driver[1];*/
@@ -87,10 +87,16 @@ void DisplayWriteBCD(display_t display, uint8_t * number, uint8_t size){
 
 void DisplayRefresh(display_t display){
     display->driver->ScreenTurnOff(); //Apago los digitos
+
     //!< Hago circular dividiendo el display activo +1 en el numero de digitos, de esta manera 
     // evito uso una sentencia if u otra 
     display->active_digit = (display->active_digit + 1) % display->digits;
+
+    // Hago uso de la funcion de callback para prender el segmento, para saber que segmentos prender
+    // voy a dentro de la memoria de cada digito voy al que esta activo 
     display->driver->SegmentsTurnOn(display->memory[display->active_digit]);
+
+    // Hago algo parecido a la linea anterior de codigo
     display->driver->DigitTurnOn(display->active_digit);
 }
 
