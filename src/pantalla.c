@@ -80,7 +80,7 @@ void DisplayWriteBCD(display_t display, uint8_t * number, uint8_t size){
     BorrarDatos(display);
     int numero_escribir=0;
     for(int i = 0; i < size || i<= display -> digits ; i++){
-        numero_escribir=number[i];
+        numero_escribir=number[size-i-1];
         display->memory[i] = IMAGES[numero_escribir];
     }
 }
