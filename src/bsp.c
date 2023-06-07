@@ -7,6 +7,7 @@
 /* === Macros definitions ====================================================================== */
 
 /* === Private data type declarations ========================================================== */
+static struct board_s board = {0};
 
 /* === Private variable declarations =========================================================== */
 
@@ -160,19 +161,21 @@ void DigitTurnOn(uint8_t digit){
 /* === Public function implementation ========================================================= */
 
 
-static struct board_s board = {0};
-
 board_t BoardCreate(void){
+    static const struct display_driver_s driver[1] = {
+        {
+        .ScreenTurnOff = ScreenTurnOff,
+        .SegmentsTurnOn = SegmentsTurnOn,
+        .DigitTurnOn = DigitTurnOn,
+        }
+    };
+
     DigitsInit();
     SegmentsInit();
     BuzzerInit();
     KeysInit();
 
-    board.display = DisplayCreate(4,&(struct display_driver_s){
-        .ScreenTurnOff = ScreenTurnOff,
-        .SegmentsTurnOn = SegmentsTurnOn,
-        .DigitTurnOn = DigitTurnOn,
-    });
+    board.display = DisplayCreate(4,driver);
 
-	return &board;
+	return &(board);
 }

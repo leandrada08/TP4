@@ -1,6 +1,6 @@
 BOARD ?= edu-ciaa-nxp
 ##<! Variable donde indico la board
-MUJU ?= ../muju
+MUJU ?=../muju
 ##<! Variable donde coloco la direccion de muju
 
 

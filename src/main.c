@@ -1,42 +1,36 @@
-#include "bsp.h"
+
+
 #include "digital.h"
+#include "bsp.h"
 #include <stdbool.h>
 #include <stddef.h>
 
-
+static board_t board;
 
 int main(void){
-    board_t board = BoardCreate();
+
+    board = BoardCreate();
+
 
     while(true){
-        if(DigitalInputHasActivated(board->set_time) == true){
-            DisplayWriteBCD(board->display, (uint8_t[]){1,1,1,1},4);
+        if(DigitalInputHasActivate(board->decrement)|DigitalInputHasActivate(board->increment)){
+            DisplayWriteBCD(board->display, (uint8_t[]){4,5,6,7},4);
+            DisplayRefresh(board->display);
+        }
+        if(DigitalInputHasActivate(board->accept)){
+            DisplayWriteBCD(board->display, (uint8_t[]){0,1,2,3},4);
+            DisplayRefresh(board->display);
+        }
+        
+        if (DigitalInputHasActivate(board->cancel)|DigitalInputHasActivate(board->set_alarma)){
+            DisplayWriteBCD(board->display, (uint8_t[]){8,9,0,1},4);
+            DisplayRefresh(board->display);
+        }
+        if(DigitalInputHasActivate(board->set_time)){
+            DisplayWriteBCD(board->display, (uint8_t[]){0,0,0,0},4);
             DisplayRefresh(board->display);
         }
 
-        if (DigitalInputHasActivated(board->cancel) == true){
-            DisplayWriteBCD(board->display, NULL, 0);
-        }
-
-        if(DigitalInputHasActivated(board->set_time)){
-    
-        }
-
-        if(DigitalInputHasActivated(board->set_alarm)== true){
-            DisplayWriteBCD(board->display, (uint8_t[]){0,9,1,2},4);
-            DisplayRefresh(board->display);
-        }
-
-        if(DigitalInputHasActivated(board->decrement)== true){
-            DisplayWriteBCD(board->display, (uint8_t[]){1,2,3,4},4);
-            DisplayRefresh(board->display);
-        }
-
-        if(DigitalInputHasActivated(board->increment)){
-            DisplayWriteBCD(board->display, (uint8_t[]){5,6,7,8},4);
-            DisplayRefresh(board->display);
-        }
-
-       DisplayRefresh(board->display);
+        DisplayRefresh(board->display);
     }
 }
